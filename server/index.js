@@ -2,13 +2,12 @@ const WebSocket = require('ws');
 
 const ws = new WebSocket.Server({port:8080});
 
-ws.on('connection', socket => {
+ws.on('connection', (socket, req) => {
     socket.on('message', message => {
+        const ip = req.connection.remoteAddress;
+        console.log(`From ${ip} -> ` + JSON.stringify(message));
         broadcast(message);
-        console.log(JSON.stringify(message));
     });
-
-    console.log("connection opened");
 });
 
 const broadcast = (message) => {

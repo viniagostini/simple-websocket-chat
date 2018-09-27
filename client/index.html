@@ -1,11 +1,23 @@
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./style.css">    
+    </head>
     <body>
+        <h3>Come to zap</h3>
+        <h4>Better than chat uol</h4>
+        <br>
+        <br>
+        <div>
+            <strong>Username</strong> 
+            <input type="text" id="username-field" size="20" placeholder="add your username">
+        </div>
 
-        <ul id="messages">
-            <li>oi</li>
-        </ul>
-
+        <ul id="messages"></ul>
+        
+        <form id="message-form">
+            <input type="text" id="message-field" placeholder="type here" size="40">
+            <button type="submit">send</button>
+        </form>
         <script src="./client.js"></script>
     </body>
 </html>

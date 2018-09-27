@@ -21,6 +21,20 @@
         socket.send(JSON.stringify({user, message}));
     }
 
+
+    document.getElementById("message-form").addEventListener("submit", function(e){
+        e.preventDefault();    //stop form from submitting
+        console.log(e);
+        const messageField = document.getElementById('message-field');
+
+        const username = document.getElementById('username-field').value;
+        const message = messageField.value;
+        
+        sendMessage(message, username);
+
+        messageField.value = '';
+    });
+
     window.sendMessage = sendMessage;
 
 })();
