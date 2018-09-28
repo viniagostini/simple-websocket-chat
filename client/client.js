@@ -14,7 +14,9 @@
         const ul = document.getElementById("messages");
         const li = document.createElement("li");
         li.appendChild(document.createTextNode(`${user}: ${message}`));
-        ul.appendChild(li);        
+        ul.appendChild(li);
+        
+        ul.scrollTop = ul.scrollHeight;
     };
 
     const sendMessage = (message, user) => {
