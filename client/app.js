@@ -1,6 +1,4 @@
 (() => { 
-
-
     // <h3>Come to zap</h3>
     // <h4>Better than chat uol</h4>
     // <br>
@@ -55,16 +53,12 @@
     //     messageField.value = '';
     // });
 
-    class Header extends React.Component {
-        render () {
-            return (
-                <React.Fragment> 
-                    <h3>Hello Stranger</h3>
-                    <h4>Welcome to Vinicius´s chat</h4>
-                </React.Fragment>
-            );
-        }
-    }
+    const Header = () => (
+        <React.Fragment> 
+            <h3>Hello Stranger</h3>
+            <h4>Welcome to Vinicius´s chat</h4>
+        </React.Fragment>
+    );
 
     class InitialForm extends React.Component {
         constructor (props) {
@@ -93,51 +87,44 @@
         }
     }
 
-    class Message extends React.Component {
-        render () {
-            const classes = `bg-gray message ${this.props.fromMe ? 'alignRight' : 'alignLeft'}`;
-            return (
-                <div className={classes}>
-                    {
-                        !this.props.fromMe && <MessageHeader username={this.props.username}/>
-                    }
-                    
-                    <div className="columns">
-                        <div className="column col-12">{this.props.body}</div>
-                    </div>
-                </div>
-            );
-        }
-    }
+    const MessageHeader = ({username}) => (
+        <div className="columns">
+            <div className="column col-12">
+                <strong>{username}</strong>
+            </div>
+        </div>
+    );
 
-    class MessageHeader extends React.Component {
-        render () {
-            return  <div className="columns">
-                        <div className="column col-12">
-                            <strong>{this.props.username}</strong>
-                        </div>
-                    </div>
-        }
-    }
-
-    class MessagesContainer extends React.Component {
-        render () {
-            return (
-                <div id="messages-container">
-                    {
-                        this.props.messages.map((message) => 
-                            <Message 
-                                key={Math.random()} 
-                                username={message.username} 
-                                body={message.body} 
-                                fromMe={this.props.currentUsername === message.username}
-                            />
-                        )
-                    }
+    const Message = ({username, body, fromMe}) => {
+        const classes = `bg-gray message ${fromMe ? 'alignRight' : 'alignLeft'}`;
+        return (
+            <div className={classes}>
+                {
+                    !fromMe && <MessageHeader username={username}/>
+                }
+                
+                <div className="columns">
+                    <div className="column col-12">{body}</div>
                 </div>
-            );
-        }
-    }
+            </div>
+        );
+    };
+
+
+    const MessagesContainer = ({messages, currentUsername}) => (
+        <div id="messages-container">
+            {
+                messages.map((message) => 
+                    <Message 
+                        key={Math.random()} 
+                        username={message.username} 
+                        body={message.body} 
+                        fromMe={currentUsername === message.username}
+                    />
+                )
+            }
+        </div>
+    );
 
     class MessageForm extends React.Component {
         constructor (props) {

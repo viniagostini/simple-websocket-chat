@@ -11,7 +11,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
-
     // <h3>Come to zap</h3>
     // <h4>Better than chat uol</h4>
     // <br>
@@ -66,48 +65,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     //     messageField.value = '';
     // });
 
-    var Header = function (_React$Component) {
-        _inherits(Header, _React$Component);
+    var Header = function Header() {
+        return React.createElement(
+            React.Fragment,
+            null,
+            React.createElement(
+                "h3",
+                null,
+                "Hello Stranger"
+            ),
+            React.createElement(
+                "h4",
+                null,
+                "Welcome to Vinicius\xB4s chat"
+            )
+        );
+    };
 
-        function Header() {
-            _classCallCheck(this, Header);
-
-            return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-        }
-
-        _createClass(Header, [{
-            key: "render",
-            value: function render() {
-                return React.createElement(
-                    React.Fragment,
-                    null,
-                    React.createElement(
-                        "h3",
-                        null,
-                        "Hello Stranger"
-                    ),
-                    React.createElement(
-                        "h4",
-                        null,
-                        "Welcome to Vinicius\xB4s chat"
-                    )
-                );
-            }
-        }]);
-
-        return Header;
-    }(React.Component);
-
-    var InitialForm = function (_React$Component2) {
-        _inherits(InitialForm, _React$Component2);
+    var InitialForm = function (_React$Component) {
+        _inherits(InitialForm, _React$Component);
 
         function InitialForm(props) {
             _classCallCheck(this, InitialForm);
 
-            var _this2 = _possibleConstructorReturn(this, (InitialForm.__proto__ || Object.getPrototypeOf(InitialForm)).call(this, props));
+            var _this = _possibleConstructorReturn(this, (InitialForm.__proto__ || Object.getPrototypeOf(InitialForm)).call(this, props));
 
-            _this2.handleSubmit = _this2.handleSubmit.bind(_this2);
-            return _this2;
+            _this.handleSubmit = _this.handleSubmit.bind(_this);
+            return _this;
         }
 
         _createClass(InitialForm, [{
@@ -150,112 +134,72 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return InitialForm;
     }(React.Component);
 
-    var Message = function (_React$Component3) {
-        _inherits(Message, _React$Component3);
+    var MessageHeader = function MessageHeader(_ref) {
+        var username = _ref.username;
+        return React.createElement(
+            "div",
+            { className: "columns" },
+            React.createElement(
+                "div",
+                { className: "column col-12" },
+                React.createElement(
+                    "strong",
+                    null,
+                    username
+                )
+            )
+        );
+    };
 
-        function Message() {
-            _classCallCheck(this, Message);
+    var Message = function Message(_ref2) {
+        var username = _ref2.username,
+            body = _ref2.body,
+            fromMe = _ref2.fromMe;
 
-            return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).apply(this, arguments));
-        }
-
-        _createClass(Message, [{
-            key: "render",
-            value: function render() {
-                var classes = "bg-gray message " + (this.props.fromMe ? 'alignRight' : 'alignLeft');
-                return React.createElement(
+        var classes = "bg-gray message " + (fromMe ? 'alignRight' : 'alignLeft');
+        return React.createElement(
+            "div",
+            { className: classes },
+            !fromMe && React.createElement(MessageHeader, { username: username }),
+            React.createElement(
+                "div",
+                { className: "columns" },
+                React.createElement(
                     "div",
-                    { className: classes },
-                    !this.props.fromMe && React.createElement(MessageHeader, { username: this.props.username }),
-                    React.createElement(
-                        "div",
-                        { className: "columns" },
-                        React.createElement(
-                            "div",
-                            { className: "column col-12" },
-                            this.props.body
-                        )
-                    )
-                );
-            }
-        }]);
+                    { className: "column col-12" },
+                    body
+                )
+            )
+        );
+    };
 
-        return Message;
-    }(React.Component);
+    var MessagesContainer = function MessagesContainer(_ref3) {
+        var messages = _ref3.messages,
+            currentUsername = _ref3.currentUsername;
+        return React.createElement(
+            "div",
+            { id: "messages-container" },
+            messages.map(function (message) {
+                return React.createElement(Message, {
+                    key: Math.random(),
+                    username: message.username,
+                    body: message.body,
+                    fromMe: currentUsername === message.username
+                });
+            })
+        );
+    };
 
-    var MessageHeader = function (_React$Component4) {
-        _inherits(MessageHeader, _React$Component4);
-
-        function MessageHeader() {
-            _classCallCheck(this, MessageHeader);
-
-            return _possibleConstructorReturn(this, (MessageHeader.__proto__ || Object.getPrototypeOf(MessageHeader)).apply(this, arguments));
-        }
-
-        _createClass(MessageHeader, [{
-            key: "render",
-            value: function render() {
-                return React.createElement(
-                    "div",
-                    { className: "columns" },
-                    React.createElement(
-                        "div",
-                        { className: "column col-12" },
-                        React.createElement(
-                            "strong",
-                            null,
-                            this.props.username
-                        )
-                    )
-                );
-            }
-        }]);
-
-        return MessageHeader;
-    }(React.Component);
-
-    var MessagesContainer = function (_React$Component5) {
-        _inherits(MessagesContainer, _React$Component5);
-
-        function MessagesContainer() {
-            _classCallCheck(this, MessagesContainer);
-
-            return _possibleConstructorReturn(this, (MessagesContainer.__proto__ || Object.getPrototypeOf(MessagesContainer)).apply(this, arguments));
-        }
-
-        _createClass(MessagesContainer, [{
-            key: "render",
-            value: function render() {
-                var _this6 = this;
-
-                return React.createElement(
-                    "div",
-                    { id: "messages-container" },
-                    this.props.messages.map(function (message) {
-                        return React.createElement(Message, {
-                            key: Math.random(),
-                            username: message.username,
-                            body: message.body,
-                            fromMe: _this6.props.currentUsername === message.username
-                        });
-                    })
-                );
-            }
-        }]);
-
-        return MessagesContainer;
-    }(React.Component);
-
-    var MessageForm = function (_React$Component6) {
-        _inherits(MessageForm, _React$Component6);
+    var MessageForm = function (_React$Component2) {
+        _inherits(MessageForm, _React$Component2);
 
         function MessageForm(props) {
             _classCallCheck(this, MessageForm);
 
-            var _this7 = _possibleConstructorReturn(this, (MessageForm.__proto__ || Object.getPrototypeOf(MessageForm)).call(this, props));
+            var _this2 = _possibleConstructorReturn(this, (MessageForm.__proto__ || Object.getPrototypeOf(MessageForm)).call(this, props));
 
-            _this7.sendMessage = _this7.sendMessage.bind(_this7);
-            return _this7;
+            _this2.sendMessage = _this2.sendMessage.bind(_this2);
+            return _this2;
         }
 
         _createClass(MessageForm, [{
@@ -289,22 +233,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         return MessageForm;
     }(React.Component);
 
-    var App = function (_React$Component7) {
-        _inherits(App, _React$Component7);
+    var App = function (_React$Component3) {
+        _inherits(App, _React$Component3);
 
         function App(props) {
             _classCallCheck(this, App);
 
-            var _this8 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+            var _this3 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-            _this8.state = {
+            _this3.state = {
                 messages: [{ username: "Vinicius", body: "qualquer coisa" }, { username: "Driele", body: "outra coisa" }],
                 username: 'Stranger',
                 changedUsername: false
             };
-            _this8.setUsername = _this8.setUsername.bind(_this8);
-            _this8.addMessage = _this8.addMessage.bind(_this8);
-            return _this8;
+            _this3.setUsername = _this3.setUsername.bind(_this3);
+            _this3.addMessage = _this3.addMessage.bind(_this3);
+            return _this3;
         }
 
         _createClass(App, [{
@@ -329,11 +273,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }, {
             key: "render",
             value: function render() {
-                var _this9 = this;
+                var _this4 = this;
 
                 // just to play around
                 window.sendMessage = function (username, body) {
-                    _this9.addMessage({ username: username, body: body });
+                    _this4.addMessage({ username: username, body: body });
                 };
 
                 return React.createElement(
