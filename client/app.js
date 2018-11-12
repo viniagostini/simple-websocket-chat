@@ -1,5 +1,5 @@
 (() => { 
-    
+
 
     // <h3>Come to zap</h3>
     // <h4>Better than chat uol</h4>
@@ -59,19 +59,35 @@
         render () {
             return (
                 <React.Fragment> 
-                    <h3>Welcome to Vinicius´s chat</h3>
-                    <h4>Better than chat uol</h4>
+                    <h3>Hello Stranger</h3>
+                    <h4>Welcome to Vinicius´s chat</h4>
                 </React.Fragment>
             );
         }
     }
 
     class InitialForm extends React.Component {
+        constructor (props) {
+            super(props);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+        handleSubmit (event) {
+            event.preventDefault();
+            const username = document.getElementById('username-field').value;
+            username && this.props.setUsername(username);
+        }
         render () {
             return (
                 <React.Fragment>
-                    <strong>Username</strong> 
-                    <input type="text" id="username-field" size="20" placeholder="add your username"/>
+                    <form onSubmit={this.handleSubmit}>
+                        <strong>Username: {this.props.currentUsername}</strong>
+                        <br/>
+                        <input type="text" id="username-field" size="20" 
+                            placeholder={this.props.currentUsername} 
+                            disabled={this.props.changedUsername}
+                        />
+                        <button type="submit" disabled={this.props.changedUsername}>Manda saporra</button>
+                    </form>
                 </React.Fragment>
             );
         }
@@ -79,60 +95,128 @@
 
     class Message extends React.Component {
         render () {
+            const classes = `bg-gray message ${this.props.fromMe ? 'alignRight' : 'alignLeft'}`;
             return (
-                <li>{`${this.props.username}: ${this.props.body}`}</li>
+                <div className={classes}>
+                    {
+                        !this.props.fromMe && <MessageHeader username={this.props.username}/>
+                    }
+                    
+                    <div className="columns">
+                        <div className="column col-12">{this.props.body}</div>
+                    </div>
+                </div>
             );
+        }
+    }
+
+    class MessageHeader extends React.Component {
+        render () {
+            return  <div className="columns">
+                        <div className="column col-12">
+                            <strong>{this.props.username}</strong>
+                        </div>
+                    </div>
         }
     }
 
     class MessagesContainer extends React.Component {
         render () {
             return (
-                <ul id="messages-container">
+                <div id="messages-container">
                     {
                         this.props.messages.map((message) => 
-                            <Message key={message.body} username={message.username} body={message.body}/>)
+                            <Message 
+                                key={Math.random()} 
+                                username={message.username} 
+                                body={message.body} 
+                                fromMe={this.props.currentUsername === message.username}
+                            />
+                        )
                     }
-                </ul>
+                </div>
             );
         }
     }
 
-    let messages = [
-        { username: "Vinicius", body: "qualquer coisa"}, 
-        { username: "Matheus", body: "outra coisa"}, 
-    ];
-
-    class App extends React.Component {
+    class MessageForm extends React.Component {
         constructor (props) {
             super(props);
+            this.sendMessage = this.sendMessage.bind(this);
+        }
+        
+        sendMessage (event) {
+            event.preventDefault();
+            const message = document.getElementById('message-input').value;
+            message && this.props.addMessage({body: message, username: this.props.username});
+            document.getElementById('message-input').value = '';
         }
 
         render () {
-            const date = new Date();
-
-            window.addMessage = () => {
-                messages.push({
-                    username: "Vinicius", body: "qualquer coisa2" + date.getMilliseconds()
-                });
-                rerender();
-            }
-
             return (
                 <React.Fragment>
-                    <Header/>
-                    <InitialForm/>
-                    <MessagesContainer messages={messages}/>
+                    <form onSubmit={this.sendMessage}>
+                        <input type="text" id="message-input" />
+                        <button type="submit">Send Message</button>
+                    </form>
                 </React.Fragment>
             );
         }
     }
 
-    function rerender () {
-        const template = <App/>
-        const appRoot = document.getElementById('app');
-        ReactDOM.render(template, appRoot);
+    class App extends React.Component {
+        constructor (props) {
+            super(props);
+            this.state = {
+                messages: [
+                    { username: "Vinicius", body: "qualquer coisa"}, 
+                    { username: "Driele", body: "outra coisa"}, 
+                ],
+                username: 'Stranger',
+                changedUsername: false
+            }
+            this.setUsername = this.setUsername.bind(this);
+            this.addMessage = this.addMessage.bind(this);
+        }
+
+        setUsername (newUsername) {
+            this.setState(() => {
+                return {
+                    username: newUsername,
+                    changedUsername: true
+                };
+            });
+        }
+
+
+        addMessage (newMessage) {
+            this.setState(oldState => {
+                return {
+                    messages: [...oldState.messages, newMessage]
+                };
+            });
+        }
+
+        render () {
+            // just to play around
+            window.sendMessage = (username, body) => {
+                this.addMessage({username, body});
+            };
+
+            return (
+                <React.Fragment>
+                    <Header/>
+                    <InitialForm 
+                        setUsername={this.setUsername} 
+                        currentUsername={this.state.username} 
+                        changedUsername={this.state.changedUsername} 
+                    />
+                    <MessagesContainer messages={this.state.messages} currentUsername={this.state.username}/>
+                    <MessageForm addMessage={this.addMessage} username={this.state.username} />
+                </React.Fragment>
+            );
+        }
     }
 
-    rerender();
+    ReactDOM.render(<App/>, document.getElementById('app'));
 })();
