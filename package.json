@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": "babel client/app.js --out-file=client/public/app.js --presets=env,react --watch"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/viniagostini/simple-websocket-chat#readme",
   "dependencies": {
-    "ws": "^6.0.0"
+    "ws": "^6.0.0",
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1"
   }
 }
