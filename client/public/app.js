@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11,73 +11,25 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function () {
-    // <h3>Come to zap</h3>
-    // <h4>Better than chat uol</h4>
-    // <br>
-    // <br>
-    // <div>
-    //     <strong>Username</strong> 
-    //     <input type="text" id="username-field" size="20" placeholder="add your username">
-    // </div>
+    var socket = new WebSocket('ws://localhost:8081');
 
-    // <ul id="messages"></ul>
-
-    // <form id="message-form">
-    //     <input type="text" id="message-field" placeholder="type here" size="40">
-    //     <button type="submit" class="btn btn-primary">send</button>
-    // </form>
-
-    // const socket = new WebSocket('ws://localhost:8080');
-
-    // socket.addEventListener('open', () => {
-    //     console.log('connection open');
-    // });
-
-    // socket.addEventListener('message', event => {
-    //     const {message, user} = JSON.parse(event.data);
-    //     addMessage(message, user);
-    // });
-
-    // const addMessage = (message, user) => {
-    //     const ul = document.getElementById("messages");
-    //     const li = document.createElement("li");
-    //     li.appendChild(document.createTextNode(`${user}: ${message}`));
-    //     ul.appendChild(li);
-
-    //     ul.scrollTop = ul.scrollHeight;
-    // };
-
-    // const sendMessage = (message, user) => {
-    //     socket.send(JSON.stringify({user, message}));
-    // }
-
-
-    // document.getElementById("message-form").addEventListener("submit", function(e){
-    //     e.preventDefault();    //stop form from submitting
-    //     console.log(e);
-    //     const messageField = document.getElementById('message-field');
-
-    //     const username = document.getElementById('username-field').value;
-    //     const message = messageField.value;
-
-    //     sendMessage(message, username);
-
-    //     messageField.value = '';
-    // });
+    socket.addEventListener('open', function () {
+        console.log('connection open');
+    });
 
     var Header = function Header() {
         return React.createElement(
             React.Fragment,
             null,
             React.createElement(
-                "h3",
+                'h3',
                 null,
-                "Hello Stranger"
+                'Hello Stranger'
             ),
             React.createElement(
-                "h4",
+                'h4',
                 null,
-                "Welcome to Vinicius\xB4s chat"
+                'Welcome to Vinicius\xB4s chat'
             )
         );
     };
@@ -95,36 +47,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         _createClass(InitialForm, [{
-            key: "handleSubmit",
+            key: 'handleSubmit',
             value: function handleSubmit(event) {
                 event.preventDefault();
                 var username = document.getElementById('username-field').value;
                 username && this.props.setUsername(username);
             }
         }, {
-            key: "render",
+            key: 'render',
             value: function render() {
                 return React.createElement(
                     React.Fragment,
                     null,
                     React.createElement(
-                        "form",
+                        'form',
                         { onSubmit: this.handleSubmit },
                         React.createElement(
-                            "strong",
+                            'strong',
                             null,
-                            "Username: ",
+                            'Username: ',
                             this.props.currentUsername
                         ),
-                        React.createElement("br", null),
-                        React.createElement("input", { type: "text", id: "username-field", size: "20",
+                        React.createElement('br', null),
+                        React.createElement('input', { type: 'text', id: 'username-field', size: '20',
                             placeholder: this.props.currentUsername,
                             disabled: this.props.changedUsername
                         }),
                         React.createElement(
-                            "button",
-                            { type: "submit", disabled: this.props.changedUsername },
-                            "Manda saporra"
+                            'button',
+                            { type: 'submit', disabled: this.props.changedUsername },
+                            'Manda saporra'
                         )
                     )
                 );
@@ -137,13 +89,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
     var MessageHeader = function MessageHeader(_ref) {
         var username = _ref.username;
         return React.createElement(
-            "div",
-            { className: "columns" },
+            'div',
+            { className: 'columns' },
             React.createElement(
-                "div",
-                { className: "column col-12" },
+                'div',
+                { className: 'column col-12' },
                 React.createElement(
-                    "strong",
+                    'strong',
                     null,
                     username
                 )
@@ -156,17 +108,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             body = _ref2.body,
             fromMe = _ref2.fromMe;
 
-        var classes = "bg-gray message " + (fromMe ? 'alignRight' : 'alignLeft');
+        var classes = 'bg-gray message ' + (fromMe ? 'alignRight' : 'alignLeft');
         return React.createElement(
-            "div",
+            'div',
             { className: classes },
             !fromMe && React.createElement(MessageHeader, { username: username }),
             React.createElement(
-                "div",
-                { className: "columns" },
+                'div',
+                { className: 'columns' },
                 React.createElement(
-                    "div",
-                    { className: "column col-12" },
+                    'div',
+                    { className: 'column col-12' },
                     body
                 )
             )
@@ -177,8 +129,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         var messages = _ref3.messages,
             currentUsername = _ref3.currentUsername;
         return React.createElement(
-            "div",
-            { id: "messages-container" },
+            'div',
+            { id: 'messages-container' },
             messages.map(function (message) {
                 return React.createElement(Message, {
                     key: Math.random(),
@@ -203,7 +155,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }
 
         _createClass(MessageForm, [{
-            key: "sendMessage",
+            key: 'sendMessage',
             value: function sendMessage(event) {
                 event.preventDefault();
                 var message = document.getElementById('message-input').value;
@@ -211,19 +163,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 document.getElementById('message-input').value = '';
             }
         }, {
-            key: "render",
+            key: 'render',
             value: function render() {
                 return React.createElement(
                     React.Fragment,
                     null,
                     React.createElement(
-                        "form",
+                        'form',
                         { onSubmit: this.sendMessage },
-                        React.createElement("input", { type: "text", id: "message-input" }),
+                        React.createElement('input', { type: 'text', id: 'message-input' }),
                         React.createElement(
-                            "button",
-                            { type: "submit" },
-                            "Send Message"
+                            'button',
+                            { type: 'submit' },
+                            'Send Message'
                         )
                     )
                 );
@@ -248,11 +200,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             };
             _this3.setUsername = _this3.setUsername.bind(_this3);
             _this3.addMessage = _this3.addMessage.bind(_this3);
+            _this3.sendMessage = _this3.sendMessage.bind(_this3);
+
+            socket.addEventListener('message', function (event) {
+                var _JSON$parse = JSON.parse(event.data),
+                    user = _JSON$parse.user,
+                    message = _JSON$parse.message;
+
+                _this3.addMessage({ username: user, body: message });
+            });
             return _this3;
         }
 
         _createClass(App, [{
-            key: "setUsername",
+            key: 'setUsername',
             value: function setUsername(newUsername) {
                 this.setState(function () {
                     return {
@@ -262,7 +223,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 });
             }
         }, {
-            key: "addMessage",
+            key: 'addMessage',
             value: function addMessage(newMessage) {
                 this.setState(function (oldState) {
                     return {
@@ -271,7 +232,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 });
             }
         }, {
-            key: "render",
+            key: 'sendMessage',
+            value: function sendMessage(newMessage) {
+                var user = newMessage.username;
+                var message = newMessage.body;
+                socket.send(JSON.stringify({ user: user, message: message }));
+            }
+        }, {
+            key: 'render',
             value: function render() {
                 var _this4 = this;
 
@@ -290,7 +258,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                         changedUsername: this.state.changedUsername
                     }),
                     React.createElement(MessagesContainer, { messages: this.state.messages, currentUsername: this.state.username }),
-                    React.createElement(MessageForm, { addMessage: this.addMessage, username: this.state.username })
+                    React.createElement(MessageForm, { addMessage: this.sendMessage, username: this.state.username })
                 );
             }
         }]);

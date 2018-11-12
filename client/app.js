@@ -1,57 +1,9 @@
 (() => { 
-    // <h3>Come to zap</h3>
-    // <h4>Better than chat uol</h4>
-    // <br>
-    // <br>
-    // <div>
-    //     <strong>Username</strong> 
-    //     <input type="text" id="username-field" size="20" placeholder="add your username">
-    // </div>
-
-    // <ul id="messages"></ul>
+    const socket = new WebSocket('ws://localhost:8081');
     
-    // <form id="message-form">
-    //     <input type="text" id="message-field" placeholder="type here" size="40">
-    //     <button type="submit" class="btn btn-primary">send</button>
-    // </form>
-
-    // const socket = new WebSocket('ws://localhost:8080');
-    
-    // socket.addEventListener('open', () => {
-    //     console.log('connection open');
-    // });
-     
-    // socket.addEventListener('message', event => {
-    //     const {message, user} = JSON.parse(event.data);
-    //     addMessage(message, user);
-    // });
-
-    // const addMessage = (message, user) => {
-    //     const ul = document.getElementById("messages");
-    //     const li = document.createElement("li");
-    //     li.appendChild(document.createTextNode(`${user}: ${message}`));
-    //     ul.appendChild(li);
-        
-    //     ul.scrollTop = ul.scrollHeight;
-    // };
-
-    // const sendMessage = (message, user) => {
-    //     socket.send(JSON.stringify({user, message}));
-    // }
-
-
-    // document.getElementById("message-form").addEventListener("submit", function(e){
-    //     e.preventDefault();    //stop form from submitting
-    //     console.log(e);
-    //     const messageField = document.getElementById('message-field');
-
-    //     const username = document.getElementById('username-field').value;
-    //     const message = messageField.value;
-        
-    //     sendMessage(message, username);
-
-    //     messageField.value = '';
-    // });
+    socket.addEventListener('open', () => {
+        console.log('connection open');
+    });
 
     const Header = () => (
         <React.Fragment> 
@@ -164,6 +116,12 @@
             }
             this.setUsername = this.setUsername.bind(this);
             this.addMessage = this.addMessage.bind(this);
+            this.sendMessage = this.sendMessage.bind(this);
+
+            socket.addEventListener('message', event => {
+                const {user, message} = JSON.parse(event.data);
+                this.addMessage({username: user, body: message});
+            });
         }
 
         setUsername (newUsername) {
@@ -184,6 +142,12 @@
             });
         }
 
+        sendMessage (newMessage) {
+            const user = newMessage.username;
+            const message = newMessage.body;
+            socket.send(JSON.stringify({user, message}));
+        }
+
         render () {
             // just to play around
             window.sendMessage = (username, body) => {
@@ -199,7 +163,7 @@
                         changedUsername={this.state.changedUsername} 
                     />
                     <MessagesContainer messages={this.state.messages} currentUsername={this.state.username}/>
-                    <MessageForm addMessage={this.addMessage} username={this.state.username} />
+                    <MessageForm addMessage={this.sendMessage} username={this.state.username} />
                 </React.Fragment>
             );
         }
