@@ -1,18 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Header from './components/Header';
+
 const socket = new WebSocket('ws://localhost:8081');
 
 socket.addEventListener('open', () => {
     console.log('connection open');
 });
-
-const Header = () => (
-    <React.Fragment> 
-        <h3>Hello Stranger</h3>
-        <h4>Welcome to Vinicius´s chat</h4>
-    </React.Fragment>
-);
 
 class InitialForm extends React.Component {
     constructor (props) {
